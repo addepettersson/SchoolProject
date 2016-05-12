@@ -1,0 +1,661 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WpfprojectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminJournal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Cost" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="50" />
+          <Property Name="Car_Id" Type="int" Nullable="false" />
+          <Property Name="TypeOfCost_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Regnr" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="OriginalMileage" Type="int" Nullable="false" />
+          <Property Name="Colour_Id" Type="int" />
+          <Property Name="CarType_Id" Type="int" Nullable="false" />
+          <Property Name="Year_Id" Type="int" />
+          <Property Name="FuelType_Id" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="CarType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Colour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Colour" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DriverJournal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="FuelAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PricePerUnit" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Driver_Id" Type="int" Nullable="false" />
+          <Property Name="Car_Id" Type="int" Nullable="false" />
+          <Property Name="FuelType_Id" Type="int" Nullable="false" />
+          <Property Name="mileage" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FuelType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FuelType" Type="nvarchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypeOfCost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Salt" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IsAdmin" Type="bit" />
+        </EntityType>
+        <EntityType Name="Year">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__AdminJour__Car_I__4D94879B">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="AdminJournal" Type="Self.AdminJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminJournal">
+              <PropertyRef Name="Car_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminJour__TypeO__4E88ABD4">
+          <End Role="TypeOfCost" Type="Self.TypeOfCost" Multiplicity="0..1" />
+          <End Role="AdminJournal" Type="Self.AdminJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfCost">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminJournal">
+              <PropertyRef Name="TypeOfCost_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__CarType_Id__403A8C7D">
+          <End Role="CarType" Type="Self.CarType" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="CarType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__Colour_Id__3F466844">
+          <End Role="Colour" Type="Self.Colour" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colour">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="Colour_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__FuelType_Id__4222D4EF">
+          <End Role="FuelType" Type="Self.FuelType" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FuelType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="FuelType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__Year_Id__412EB0B6">
+          <End Role="Year" Type="Self.Year" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Year">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="Year_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DriverJou__Car_I__47DBAE45">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="DriverJournal" Type="Self.DriverJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverJournal">
+              <PropertyRef Name="Car_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DriverJou__Drive__46E78A0C">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="DriverJournal" Type="Self.DriverJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverJournal">
+              <PropertyRef Name="Driver_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DriverJou__FuelT__48CFD27E">
+          <End Role="FuelType" Type="Self.FuelType" Multiplicity="1" />
+          <End Role="DriverJournal" Type="Self.DriverJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FuelType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverJournal">
+              <PropertyRef Name="FuelType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Car1" Type="Self.Car" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WpfprojectModelStoreContainer">
+          <EntitySet Name="AdminJournal" EntityType="Self.AdminJournal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarType" EntityType="Self.CarType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Colour" EntityType="Self.Colour" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DriverJournal" EntityType="Self.DriverJournal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FuelType" EntityType="Self.FuelType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeOfCost" EntityType="Self.TypeOfCost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Year" EntityType="Self.Year" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AdminJour__Car_I__4D94879B" Association="Self.FK__AdminJour__Car_I__4D94879B">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="AdminJournal" EntitySet="AdminJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminJour__TypeO__4E88ABD4" Association="Self.FK__AdminJour__TypeO__4E88ABD4">
+            <End Role="TypeOfCost" EntitySet="TypeOfCost" />
+            <End Role="AdminJournal" EntitySet="AdminJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__CarType_Id__403A8C7D" Association="Self.FK__Car__CarType_Id__403A8C7D">
+            <End Role="CarType" EntitySet="CarType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__Colour_Id__3F466844" Association="Self.FK__Car__Colour_Id__3F466844">
+            <End Role="Colour" EntitySet="Colour" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__FuelType_Id__4222D4EF" Association="Self.FK__Car__FuelType_Id__4222D4EF">
+            <End Role="FuelType" EntitySet="FuelType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__Year_Id__412EB0B6" Association="Self.FK__Car__Year_Id__412EB0B6">
+            <End Role="Year" EntitySet="Year" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DriverJou__Car_I__47DBAE45" Association="Self.FK__DriverJou__Car_I__47DBAE45">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="DriverJournal" EntitySet="DriverJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DriverJou__Drive__46E78A0C" Association="Self.FK__DriverJou__Drive__46E78A0C">
+            <End Role="User" EntitySet="User" />
+            <End Role="DriverJournal" EntitySet="DriverJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DriverJou__FuelT__48CFD27E" Association="Self.FK__DriverJou__FuelT__48CFD27E">
+            <End Role="FuelType" EntitySet="FuelType" />
+            <End Role="DriverJournal" EntitySet="DriverJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Car" Association="Self.FK_Car_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Car1" EntitySet="Car" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WpfprojectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AdminJournal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Cost" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Car_Id" Type="Int32" Nullable="false" />
+          <Property Name="TypeOfCost_Id" Type="Int32" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__AdminJour__Car_I__4D94879B" FromRole="AdminJournal" ToRole="Car" />
+          <NavigationProperty Name="TypeOfCost" Relationship="Self.FK__AdminJour__TypeO__4E88ABD4" FromRole="AdminJournal" ToRole="TypeOfCost" />
+        </EntityType>
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Regnr" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OriginalMileage" Type="Int32" Nullable="false" />
+          <Property Name="Colour_Id" Type="Int32" />
+          <Property Name="CarType_Id" Type="Int32" Nullable="false" />
+          <Property Name="Year_Id" Type="Int32" />
+          <Property Name="FuelType_Id" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AdminJournal" Relationship="Self.FK__AdminJour__Car_I__4D94879B" FromRole="Car" ToRole="AdminJournal" />
+          <NavigationProperty Name="CarType" Relationship="Self.FK__Car__CarType_Id__403A8C7D" FromRole="Car" ToRole="CarType" />
+          <NavigationProperty Name="Colour" Relationship="Self.FK__Car__Colour_Id__3F466844" FromRole="Car" ToRole="Colour" />
+          <NavigationProperty Name="FuelType" Relationship="Self.FK__Car__FuelType_Id__4222D4EF" FromRole="Car" ToRole="FuelType" />
+          <NavigationProperty Name="Year" Relationship="Self.FK__Car__Year_Id__412EB0B6" FromRole="Car" ToRole="Year" />
+          <NavigationProperty Name="DriverJournal" Relationship="Self.FK__DriverJou__Car_I__47DBAE45" FromRole="Car" ToRole="DriverJournal" />
+          <NavigationProperty Name="Car1" Relationship="Self.FK_Car_Car" FromRole="Car" ToRole="Car1" />
+          <NavigationProperty Name="Car2" Relationship="Self.FK_Car_Car" FromRole="Car1" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="CarType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__Car__CarType_Id__403A8C7D" FromRole="CarType" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="Colour">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Colour1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__Car__Colour_Id__3F466844" FromRole="Colour" ToRole="Car" />
+        </EntityType>
+        <EntityType Name="DriverJournal">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FuelAmount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="PricePerUnit" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Driver_Id" Type="Int32" Nullable="false" />
+          <Property Name="Car_Id" Type="Int32" Nullable="false" />
+          <Property Name="FuelType_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__DriverJou__Car_I__47DBAE45" FromRole="DriverJournal" ToRole="Car" />
+          <NavigationProperty Name="User" Relationship="Self.FK__DriverJou__Drive__46E78A0C" FromRole="DriverJournal" ToRole="User" />
+          <NavigationProperty Name="FuelType" Relationship="Self.FK__DriverJou__FuelT__48CFD27E" FromRole="DriverJournal" ToRole="FuelType" />
+          <Property Name="mileage" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FuelType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FuelType1" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__Car__FuelType_Id__4222D4EF" FromRole="FuelType" ToRole="Car" />
+          <NavigationProperty Name="DriverJournal" Relationship="Self.FK__DriverJou__FuelT__48CFD27E" FromRole="FuelType" ToRole="DriverJournal" />
+        </EntityType>
+        <EntityType Name="TypeOfCost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AdminJournal" Relationship="Self.FK__AdminJour__TypeO__4E88ABD4" FromRole="TypeOfCost" ToRole="AdminJournal" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DriverJournal" Relationship="Self.FK__DriverJou__Drive__46E78A0C" FromRole="User" ToRole="DriverJournal" />
+          <Property Name="IsAdmin" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Year">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Year1" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__Car__Year_Id__412EB0B6" FromRole="Year" ToRole="Car" />
+        </EntityType>
+        <Association Name="FK__AdminJour__Car_I__4D94879B">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="AdminJournal" Type="Self.AdminJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminJournal">
+              <PropertyRef Name="Car_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminJour__TypeO__4E88ABD4">
+          <End Role="TypeOfCost" Type="Self.TypeOfCost" Multiplicity="0..1" />
+          <End Role="AdminJournal" Type="Self.AdminJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeOfCost">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AdminJournal">
+              <PropertyRef Name="TypeOfCost_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__CarType_Id__403A8C7D">
+          <End Role="CarType" Type="Self.CarType" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="CarType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__Colour_Id__3F466844">
+          <End Role="Colour" Type="Self.Colour" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colour">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="Colour_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__FuelType_Id__4222D4EF">
+          <End Role="FuelType" Type="Self.FuelType" Multiplicity="1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FuelType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="FuelType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Car__Year_Id__412EB0B6">
+          <End Role="Year" Type="Self.Year" Multiplicity="0..1" />
+          <End Role="Car" Type="Self.Car" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Year">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car">
+              <PropertyRef Name="Year_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DriverJou__Car_I__47DBAE45">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="DriverJournal" Type="Self.DriverJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverJournal">
+              <PropertyRef Name="Car_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Car_Car">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Car1" Type="Self.Car" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Car1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DriverJou__Drive__46E78A0C">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="DriverJournal" Type="Self.DriverJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverJournal">
+              <PropertyRef Name="Driver_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DriverJou__FuelT__48CFD27E">
+          <End Role="FuelType" Type="Self.FuelType" Multiplicity="1" />
+          <End Role="DriverJournal" Type="Self.DriverJournal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FuelType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DriverJournal">
+              <PropertyRef Name="FuelType_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WpfprojectEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AdminJournal" EntityType="Self.AdminJournal" />
+          <EntitySet Name="Car" EntityType="Self.Car" />
+          <EntitySet Name="CarType" EntityType="Self.CarType" />
+          <EntitySet Name="Colour" EntityType="Self.Colour" />
+          <EntitySet Name="DriverJournal" EntityType="Self.DriverJournal" />
+          <EntitySet Name="FuelType" EntityType="Self.FuelType" />
+          <EntitySet Name="TypeOfCost" EntityType="Self.TypeOfCost" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="Year" EntityType="Self.Year" />
+          <AssociationSet Name="FK__AdminJour__Car_I__4D94879B" Association="Self.FK__AdminJour__Car_I__4D94879B">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="AdminJournal" EntitySet="AdminJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminJour__TypeO__4E88ABD4" Association="Self.FK__AdminJour__TypeO__4E88ABD4">
+            <End Role="TypeOfCost" EntitySet="TypeOfCost" />
+            <End Role="AdminJournal" EntitySet="AdminJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__CarType_Id__403A8C7D" Association="Self.FK__Car__CarType_Id__403A8C7D">
+            <End Role="CarType" EntitySet="CarType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__Colour_Id__3F466844" Association="Self.FK__Car__Colour_Id__3F466844">
+            <End Role="Colour" EntitySet="Colour" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__FuelType_Id__4222D4EF" Association="Self.FK__Car__FuelType_Id__4222D4EF">
+            <End Role="FuelType" EntitySet="FuelType" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Car__Year_Id__412EB0B6" Association="Self.FK__Car__Year_Id__412EB0B6">
+            <End Role="Year" EntitySet="Year" />
+            <End Role="Car" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DriverJou__Car_I__47DBAE45" Association="Self.FK__DriverJou__Car_I__47DBAE45">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="DriverJournal" EntitySet="DriverJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Car_Car" Association="Self.FK_Car_Car">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Car1" EntitySet="Car" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DriverJou__Drive__46E78A0C" Association="Self.FK__DriverJou__Drive__46E78A0C">
+            <End Role="User" EntitySet="User" />
+            <End Role="DriverJournal" EntitySet="DriverJournal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DriverJou__FuelT__48CFD27E" Association="Self.FK__DriverJou__FuelT__48CFD27E">
+            <End Role="FuelType" EntitySet="FuelType" />
+            <End Role="DriverJournal" EntitySet="DriverJournal" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WpfprojectModelStoreContainer" CdmEntityContainer="WpfprojectEntities">
+          <EntitySetMapping Name="AdminJournal">
+            <EntityTypeMapping TypeName="WpfprojectModel.AdminJournal">
+              <MappingFragment StoreEntitySet="AdminJournal">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Car_Id" ColumnName="Car_Id" />
+                <ScalarProperty Name="TypeOfCost_Id" ColumnName="TypeOfCost_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Car">
+            <EntityTypeMapping TypeName="WpfprojectModel.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Regnr" ColumnName="Regnr" />
+                <ScalarProperty Name="OriginalMileage" ColumnName="OriginalMileage" />
+                <ScalarProperty Name="Colour_Id" ColumnName="Colour_Id" />
+                <ScalarProperty Name="CarType_Id" ColumnName="CarType_Id" />
+                <ScalarProperty Name="Year_Id" ColumnName="Year_Id" />
+                <ScalarProperty Name="FuelType_Id" ColumnName="FuelType_Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarType">
+            <EntityTypeMapping TypeName="WpfprojectModel.CarType">
+              <MappingFragment StoreEntitySet="CarType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colour">
+            <EntityTypeMapping TypeName="WpfprojectModel.Colour">
+              <MappingFragment StoreEntitySet="Colour">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Colour1" ColumnName="Colour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DriverJournal">
+            <EntityTypeMapping TypeName="WpfprojectModel.DriverJournal">
+              <MappingFragment StoreEntitySet="DriverJournal">
+                <ScalarProperty Name="mileage" ColumnName="mileage" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="FuelAmount" ColumnName="FuelAmount" />
+                <ScalarProperty Name="PricePerUnit" ColumnName="PricePerUnit" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="Driver_Id" ColumnName="Driver_Id" />
+                <ScalarProperty Name="Car_Id" ColumnName="Car_Id" />
+                <ScalarProperty Name="FuelType_Id" ColumnName="FuelType_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FuelType">
+            <EntityTypeMapping TypeName="WpfprojectModel.FuelType">
+              <MappingFragment StoreEntitySet="FuelType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FuelType1" ColumnName="FuelType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeOfCost">
+            <EntityTypeMapping TypeName="WpfprojectModel.TypeOfCost">
+              <MappingFragment StoreEntitySet="TypeOfCost">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="WpfprojectModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Year">
+            <EntityTypeMapping TypeName="WpfprojectModel.Year">
+              <MappingFragment StoreEntitySet="Year">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Year1" ColumnName="Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
